@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "inquirer": "^8.1.2"
+  },
+  "scripts": {
+    "run": "node index.js"
   }
 }
