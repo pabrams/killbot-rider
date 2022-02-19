@@ -173,6 +173,7 @@ export class Warrior implements IWarrior {
   async chooseAttributes() {
     let lastAnswer = '0';
     while (lastAnswer != 'q') {
+      console.log("");
       this.showAttributePoints();
       this.showAttributes();
       this.showDerivedStats();
