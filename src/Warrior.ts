@@ -244,7 +244,6 @@ export class Warrior implements IWarrior {
           },
         ]);
         lastAnswer = answer.choice;
-        console.log('Your choice was ' + lastAnswer);
         switch (lastAnswer) {
           case this.eyesight().decKey:
             if (this.eyesight().value > 1) {
