@@ -337,6 +337,7 @@ export class Warrior implements IWarrior {
     console.log(chalk.cyan(
         `Attribute points to allocate: ${chalk.yellow(this.attributePoints)}`,
     ));
+    console.log("");
   }
 
   /**
@@ -346,6 +347,7 @@ export class Warrior implements IWarrior {
     for (const attribute of this.attributes) {
       console.log(attribute.toString());
     }
+    console.log("");
   }
 
   /**
@@ -363,6 +365,7 @@ export class Warrior implements IWarrior {
             `piloting ---------- ${chalk.yellow(this.pilotingStat())}`,
         ),
     );
+    console.log("");
   };
 
   /**
@@ -372,5 +375,6 @@ export class Warrior implements IWarrior {
     for (const attribute of this.attributes) {
       console.log(attribute.toAdjustmentString());
     }
+    console.log("");
   };
 };
