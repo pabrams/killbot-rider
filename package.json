@@ -6,7 +6,7 @@
   },
   "scripts": {
     "build": "tsc -p .",
-    "start": "node --harmony-top-level-await dist/index"
+    "start": "node dist/index"
   },
   "devDependencies": {
     "@types/inquirer": "^8.1.2",
