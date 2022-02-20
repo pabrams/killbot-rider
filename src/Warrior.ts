@@ -4,7 +4,7 @@ import inquirer from 'inquirer';
 let Table = require('cli-table');
 import { Color } from './Colors';
 import * as Defaults from './Defaults';
-import { IAttributes, BaseAttribute } from './Attribute';
+import { IAttributes, BaseAttribute } from './WarriorAttribute';
 
 inquirer.registerPrompt(
   'autosubmit',
