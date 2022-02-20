@@ -10,7 +10,6 @@ armor
 legs
 wheels 
 track
-
 STATS
 weight: mount points weight + engine weight
 speed: - weight + engine
