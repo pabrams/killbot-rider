@@ -16,11 +16,6 @@ export interface IWarrior {
 
   attributePoints: number;
   attributes: IAttributes;
-
-  aimstat: () => number;
-  reactionStat: () => number;
-  tacticsStat: () => number;
-  pilotingStat: () => number;
 }
 
 /**
@@ -80,27 +75,61 @@ export class Warrior implements IWarrior {
       return null;
     },
   };
-
-  eyesight() {
-    return this.attributes.findByText('eyesight');
-  }
-
-  dexterity() {
-    return this.attributes.findByText('dexterity');
-  }
-
-  reflexes() {
-    return this.attributes.findByText('reflexes');
-  }
-
-  intellect() {
-    return this.attributes.findByText('intellect');
-  }
-
-  fortitude() {
-    return this.attributes.findByText('fortitude');
-  }
-
+  eyesight = () => this.attributes.findByText('eyesight');
+  dexterity = () => this.attributes.findByText('dexterity');
+  reflexes = () => this.attributes.findByText('reflexes');
+  intellect = () => this.attributes.findByText('intellect');
+  fortitude = () => this.attributes.findByText('fortitude');
+  attributeChoices = [];
+  derivedStats = {
+    0: {
+      name: "aim", 
+      value: () => 
+        60 * this.eyesight().value + 
+        40 * this.dexterity().value
+    },
+    1: {
+      name: "reaction", 
+      value: () => 100 * this.reflexes().value
+    },
+    2: {
+      name: "tactics", 
+      value: () => 100 * this.intellect().value
+    },
+    3: {
+      name: "fatigue", 
+      value: () => 100 * this.fortitude().value
+    },
+    4: {
+      name: "piloting", 
+      value: () =>
+        20 * this.eyesight().value +
+        30 * this.dexterity().value +
+        10 * this.fortitude().value +
+        10 * this.intellect().value +
+        30 * this.reflexes().value
+    },
+    [Symbol.iterator]: function* () {
+      yield this[0];
+      yield this[1];
+      yield this[2];
+      yield this[3];
+      yield this[4];
+    },
+    findByName: function(text: string) {
+      for (const derivedStat of this) {
+        if (derivedStat.name == text) {
+          return derivedStat;
+        }
+      }
+      return null;
+    },
+  };
+  aimStat = () => this.derivedStats.findByName('aim');
+  reactionStat = () => this.derivedStats.findByName('reaction');
+  tacticsStat = () => this.derivedStats.findByName('tactics');
+  fatigueStat = () => this.derivedStats.findByName('fatigue');
+  pilotingStat = () => this.derivedStats.findByName('piloting');
   /**
    * @param {string} nickname
    * @param {number} age
@@ -115,52 +144,14 @@ export class Warrior implements IWarrior {
     this.nickname = nickname;
     this.age = age;
     this.attributePoints = attributePoints;
+    for (const a of this.attributes){
+      this.attributeChoices.push({
+        key: a.decKey(),
+        value: a.decKey(),
+        name: a.text,
+      })
+    };
   }
-
-  /**
-   * @return {number} aimstat
-   */
-  aimstat() {
-    return (
-      this.eyesight().value +
-      this.dexterity().value
-    ) * 100 / 2;
-  }
-
-  /**
-   * @return {number} reactionStat
-   */
-  reactionStat() {
-    return (100 * this.reflexes().value);
-  }
-
-  /**
-  * @return {number} tacticsStat
-  */
-   tacticsStat() {
-    return (100 * this.intellect().value);
-  }
-
-  /**
-  * @return {number} fatigueStat
-  */
-   fatigueStat() {
-    return (100 * this.fortitude().value);
-  }
-
-  /**
- * @return {number} pilotingStat
- */
-  pilotingStat() {
-    return (
-      this.eyesight().value +
-      this.dexterity().value +
-      this.fortitude().value +
-      this.intellect().value +
-      this.reflexes().value
-    ) * 100 / 5;
-  }
-
   /**
    *
    */
@@ -171,7 +162,6 @@ export class Warrior implements IWarrior {
       this.showAttributePoints();
       this.showDerivedStats();
       this.showAdjustmentMessages();
-
       try {
         const answer = await inquirer.prompt([
           {
@@ -179,138 +169,25 @@ export class Warrior implements IWarrior {
             message: 'Adjust your attribute points.  Use \'q\' to quit.',
             name: 'choice',
             autoSubmit: (input) => input.length === 1,
-            choices: [
-              {
-                key: this.eyesight().decKey(),
-                value: this.eyesight().decKey(),
-                name: this.eyesight().text,
-              },
-              {
-                key: this.eyesight().incKey(),
-                value: this.eyesight().incKey(),
-                name: this.eyesight().text,
-              },
-              {
-                key: this.dexterity().decKey(),
-                value: this.dexterity().decKey(),
-                name: this.dexterity().text,
-              },
-              {
-                key: this.dexterity().incKey(),
-                value: this.dexterity().incKey(),
-                name: this.dexterity().text,
-              },
-              {
-                key: this.reflexes().decKey(),
-                value: this.reflexes().decKey(),
-                name: this.reflexes().text,
-              },
-              {
-                key: this.reflexes().incKey(),
-                value: this.reflexes().incKey(),
-                name: this.reflexes().text,
-              },
-              {
-                key: this.intellect().decKey(),
-                value: this.intellect().decKey(),
-                name: this.intellect().text,
-              },
-              {
-                key: this.intellect().incKey(),
-                value: this.intellect().incKey(),
-                name: this.intellect().text,
-              },
-              {
-                key: this.fortitude().decKey(),
-                value: this.fortitude().decKey(),
-                name: this.fortitude().decKey(),
-              },
-              {
-                key: this.fortitude().incKey(),
-                value: this.fortitude().incKey(),
-                name: this.fortitude().text,
-              },
-            ],
+            choices: this.attributeChoices
           },
         ]);
         lastAnswer = answer.choice;
-        switch (lastAnswer) {
-          case this.eyesight().decKey():
-            if (this.eyesight().value > 1) {
-              this.eyesight().value -= 1;
+        for (const a of this.attributes){
+          if (lastAnswer == a.decKey()) {
+            if (a.value > 1){
+              a.value -= 1;
               this.attributePoints += 1;
             }
-            break;
-          case this.eyesight().incKey():
+          }
+          if (lastAnswer == a.incKey()) {
             if (this.attributePoints > 0) {
-              if (this.eyesight().value < 12) {
-                this.eyesight().value += 1;
+              if (a.value < 12) {
+                a.value += 1;
                 this.attributePoints -= 1;
               }
             }
-            break;
-
-          case this.dexterity().decKey():
-            if (this.dexterity().value > 1) {
-              this.dexterity().value -= 1;
-              this.attributePoints += 1;
-            }
-            break;
-          case this.dexterity().incKey():
-            if (this.attributePoints > 0) {
-              if (this.dexterity().value < 12) {
-                this.dexterity().value += 1;
-                this.attributePoints -= 1;
-              }
-            }
-            break;
-
-          case this.reflexes().decKey():
-            if (this.reflexes().value > 1) {
-              this.reflexes().value -= 1;
-              this.attributePoints += 1;
-            }
-            break;
-          case this.reflexes().incKey():
-            if (this.attributePoints > 0) {
-              if (this.reflexes().value < 12) {
-                this.reflexes().value += 1;
-                this.attributePoints -= 1;
-              }
-            }
-            break;
-
-          case this.intellect().decKey():
-            if (this.intellect().value > 1) {
-              this.intellect().value -= 1;
-              this.attributePoints += 1;
-            }
-            break;
-          case this.intellect().incKey():
-            if (this.attributePoints > 0) {
-              if (this.intellect().value < 12) {
-                this.intellect().value +1;
-                this.attributePoints -= 1;
-              }
-            }
-            break;
-
-          case this.fortitude().decKey():
-            if (this.fortitude().value > 1) {
-              this.fortitude().value -= 1;
-              this.attributePoints += 1;
-            }
-            break;
-          case this.fortitude().incKey():
-            if (this.attributePoints > 0) {
-              if (this.fortitude().value < 12) {
-                this.fortitude().value += 1;
-                this.attributePoints -= 1;
-              }
-            }
-            break;
-          default:
-            break;
+          }
         }
       } catch (e) {
         console.error('rethrowing ' + e.message);
@@ -329,37 +206,19 @@ export class Warrior implements IWarrior {
     );
     console.log("");
   }
-
   /**
    *
    */
   showDerivedStats() {
-    console.log(
-      Color.altText("aim") + 
-      Color.subduedLine("----------") + 
-      Color.statValue(this.aimstat())
-    );
-
-    console.log(
-      Color.altText("reaction") + 
-      Color.subduedLine("----------") + 
-      Color.statValue(this.reactionStat())
-    );
-
-    console.log(
-      Color.altText("tactics") + 
-      Color.subduedLine("----------") + 
-      Color.statValue(this.tacticsStat())
-    );
-
-    console.log(
-      Color.altText("piloting") + 
-      Color.subduedLine("----------") + 
-      Color.statValue(this.pilotingStat())
-    );
+    for (const stat of this.derivedStats) {
+      console.log(
+        Color.altText(stat.name) + 
+        Color.subduedLine("----------") + 
+        Color.statValue(stat.value())
+      );
+    }
     console.log("");
   };
-
   /**
    *
    */
