@@ -103,10 +103,12 @@ export class Warrior implements IWarrior {
     },
     2: {
       name: "tactics", 
-      value: () => 100 * this.intellect().value
+      value: () => 
+        90 * this.intellect().value +
+        10 * this.eyesight().value
     },
     3: {
-      name: "fatigue", 
+      name: "fatigueRate", 
       value: () => 100 * this.fortitude().value
     },
     4: {
@@ -157,7 +159,7 @@ export class Warrior implements IWarrior {
   aimStat = () => this.derivedStats.findByName('aim');
   reactionStat = () => this.derivedStats.findByName('reaction');
   tacticsStat = () => this.derivedStats.findByName('tactics');
-  fatigueStat = () => this.derivedStats.findByName('fatigue');
+  fatigueRateStat = () => this.derivedStats.findByName('fatigueRate');
   pilotingStat = () => this.derivedStats.findByName('piloting');
   /**
    * @param {string} nickname
