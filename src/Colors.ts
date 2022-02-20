@@ -69,7 +69,7 @@ Color.setTheme({
     highlight: ['bgBrightYellow', 'blue'],
     keyChoice: 'brightYellow',
     outerPunc: 'cyan',
-    innerPunc: 'blue',
+    innerPunc: 'red',
     attributeValue: ['brightRed', 'bold'],
     statValue: ['red'],
     subduedLine: 'gray',
