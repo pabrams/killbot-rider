@@ -5,10 +5,10 @@ interface IAttribute{
   text: string;
   stext: string;
   value: number;
-  decKey: string;
-  incKey: string;
   toString: () => string;
   toAdjustmentString: () => string;
+  decKey: () => string;
+  incKey: () => string;
 }
 
 /** */
@@ -16,8 +16,6 @@ abstract class Attribute implements IAttribute {
   public text: string;
   public stext: string;
   public value: number;
-  public decKey: string;
-  public incKey: string;
 
   /**
    * @param {string} text main text representation
@@ -30,14 +28,10 @@ abstract class Attribute implements IAttribute {
       text: string,
       stext: string,
       value: number,
-      decKey: string,
-      incKey: string,
   ) {
     this.text = text;
     this.stext = stext;
     this.value = value;
-    this.decKey = decKey;
-    this.incKey = incKey;
   }
 
   /**
@@ -57,10 +51,27 @@ abstract class Attribute implements IAttribute {
   toAdjustmentString() {
     return (
       chalk.cyan(
-        `(${chalk.yellow(this.decKey)}|${chalk.yellow(this.incKey)})` +
-        `${chalk.red(':')} ${this.text}`,
+        `(${chalk.yellow(this.decKey())}|${chalk.yellow(this.incKey())})` +
+        `${chalk.blue(this.text.substring(1))}` +
+        `${chalk.gray('----------')}` +
+        `${chalk.red(this.value)}`,
       )
     );
+  }
+
+
+  /**
+   * @return {string} the char that decrements this attribute
+  */
+   decKey() {
+    return this.text.substring(0, 1).toLocaleLowerCase();
+  }
+
+  /**
+   * @return {string} the char that increments this attribute
+  */
+   incKey() {
+    return this.text.substring(0, 1).toLocaleUpperCase();
   }
 }
 

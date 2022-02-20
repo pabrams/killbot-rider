@@ -31,36 +31,26 @@ export class Warrior implements IWarrior {
       'eyesight',
       'eye',
       3,
-      'e',
-      'E',
     ),
     1: new BaseAttribute(
       'dexterity',
       'dex',
       3,
-      'd',
-      'D',
     ),
     2: new BaseAttribute(
       'reflexes',
       'rfx',
-      3,
-      'r',
-      'R',
+      3
     ),
     3: new BaseAttribute(
       'intellect',
       'int',
       3,
-      'i',
-      'I',
     ),
     4: new BaseAttribute(
       'fortitude',
       'frt',
       3,
-      'f',
-      'F',
     ),
     [Symbol.iterator]: function* () {
       yield this[0];
@@ -175,7 +165,6 @@ export class Warrior implements IWarrior {
     while (lastAnswer != 'q') {
       console.log("");
       this.showAttributePoints();
-      this.showAttributes();
       this.showDerivedStats();
       this.showAdjustmentMessages();
       inquirer.registerPrompt(
@@ -192,53 +181,53 @@ export class Warrior implements IWarrior {
             autoSubmit: (input) => input.length === 1,
             choices: [
               {
-                key: this.eyesight().decKey,
-                value: this.eyesight().decKey,
+                key: this.eyesight().decKey(),
+                value: this.eyesight().decKey(),
                 name: this.eyesight().toString(),
               },
               {
-                key: this.eyesight().incKey,
-                value: this.eyesight().incKey,
+                key: this.eyesight().incKey(),
+                value: this.eyesight().incKey(),
                 name: this.eyesight().toString(),
               },
               {
-                key: this.dexterity().decKey,
-                value: this.dexterity().decKey,
+                key: this.dexterity().decKey(),
+                value: this.dexterity().decKey(),
                 name: this.dexterity().toString(),
               },
               {
-                key: this.dexterity().incKey,
-                value: this.dexterity().incKey,
+                key: this.dexterity().incKey(),
+                value: this.dexterity().incKey(),
                 name: this.dexterity().toString(),
               },
               {
-                key: this.reflexes().decKey,
-                value: this.reflexes().decKey,
+                key: this.reflexes().decKey(),
+                value: this.reflexes().decKey(),
                 name: this.reflexes().toString(),
               },
               {
-                key: this.reflexes().incKey,
-                value: this.reflexes().incKey,
+                key: this.reflexes().incKey(),
+                value: this.reflexes().incKey(),
                 name: this.reflexes().toString(),
               },
               {
-                key: this.intellect().decKey,
-                value: this.intellect().decKey,
+                key: this.intellect().decKey(),
+                value: this.intellect().decKey(),
                 name: this.intellect().toString(),
               },
               {
-                key: this.intellect().incKey,
-                value: this.intellect().incKey,
+                key: this.intellect().incKey(),
+                value: this.intellect().incKey(),
                 name: this.intellect().toString(),
               },
               {
-                key: this.fortitude().decKey,
-                value: this.fortitude().decKey,
-                name: this.fortitude().decKey,
+                key: this.fortitude().decKey(),
+                value: this.fortitude().decKey(),
+                name: this.fortitude().decKey(),
               },
               {
-                key: this.fortitude().incKey,
-                value: this.fortitude().incKey,
+                key: this.fortitude().incKey(),
+                value: this.fortitude().incKey(),
                 name: this.fortitude().toString(),
               },
             ],
@@ -246,13 +235,13 @@ export class Warrior implements IWarrior {
         ]);
         lastAnswer = answer.choice;
         switch (lastAnswer) {
-          case this.eyesight().decKey:
+          case this.eyesight().decKey():
             if (this.eyesight().value > 1) {
               this.attributes[0].value -= 1;
               this.attributePoints += 1;
             }
             break;
-          case this.eyesight().incKey:
+          case this.eyesight().incKey():
             if (this.attributePoints > 0) {
               if (this.eyesight().value < 12) {
                 this.attributes[0].value += 1;
@@ -261,13 +250,13 @@ export class Warrior implements IWarrior {
             }
             break;
 
-          case this.dexterity().decKey:
+          case this.dexterity().decKey():
             if (this.dexterity().value > 1) {
               this.dexterity().value--;
               this.attributePoints++;
             }
             break;
-          case this.dexterity().incKey:
+          case this.dexterity().incKey():
             if (this.attributePoints > 0) {
               if (this.dexterity().value < 12) {
                 this.dexterity().value++;
@@ -276,13 +265,13 @@ export class Warrior implements IWarrior {
             }
             break;
 
-          case this.reflexes().decKey:
+          case this.reflexes().decKey():
             if (this.reflexes().value > 1) {
               this.reflexes().value--;
               this.attributePoints++;
             }
             break;
-          case this.reflexes().incKey:
+          case this.reflexes().incKey():
             if (this.attributePoints > 0) {
               if (this.reflexes().value < 12) {
                 this.reflexes().value++;
@@ -291,13 +280,13 @@ export class Warrior implements IWarrior {
             }
             break;
 
-          case this.intellect().decKey:
+          case this.intellect().decKey():
             if (this.intellect().value > 1) {
               this.intellect().value--;
               this.attributePoints++;
             }
             break;
-          case this.intellect().incKey:
+          case this.intellect().incKey():
             if (this.attributePoints > 0) {
               if (this.intellect().value < 12) {
                 this.intellect().value++;
@@ -306,13 +295,13 @@ export class Warrior implements IWarrior {
             }
             break;
 
-          case this.fortitude().decKey:
+          case this.fortitude().decKey():
             if (this.fortitude().value > 1) {
               this.fortitude().value--;
               this.attributePoints++;
             }
             break;
-          case this.fortitude().incKey:
+          case this.fortitude().incKey():
             if (this.attributePoints > 0) {
               if (this.fortitude().value < 12) {
                 this.fortitude().value++;
@@ -337,16 +326,6 @@ export class Warrior implements IWarrior {
     console.log(chalk.cyan(
         `Attribute points to allocate: ${chalk.yellow(this.attributePoints)}`,
     ));
-    console.log("");
-  }
-
-  /**
-   *
-   */
-  showAttributes() {
-    for (const attribute of this.attributes) {
-      console.log(attribute.toString());
-    }
     console.log("");
   }
 
