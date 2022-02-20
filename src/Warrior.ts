@@ -231,9 +231,20 @@ export class Warrior implements IWarrior {
    *
    */
   showAdjustmentMessages() {
+    let attributeAdjustDisplay = new Table({
+      chars: { 
+        'top': '═' , 'top-mid': '' , 'top-left': '╔' , 'top-right': '╗'
+        , 'bottom': '═' , 'bottom-mid': '' , 'bottom-left': '╚' , 'bottom-right': '╝'
+        , 'left': '║' , 'left-mid': '' , 'mid': '' , 'mid-mid': ''
+        , 'right': '║' , 'right-mid': '' , 'middle': '' 
+      }
+    });
     for (const attribute of this.attributes) {
-      console.log(attribute.toAdjustmentString());
+      attributeAdjustDisplay.push(
+        [attribute.adjustmentText(), attribute.adjustmentSeparation(), attribute.adjustmentValue()]
+      )
     }
+    console.log(attributeAdjustDisplay.toString())
     console.log("");
   };
 };

@@ -5,9 +5,11 @@ interface IAttribute{
   text: string;
   stext: string;
   value: number;
-  toAdjustmentString: () => string;
   decKey: () => string;
   incKey: () => string;
+  adjustmentText: () => string;
+  adjustmentSeparation: () => string;
+  adjustmentValue: () => string;
 }
 
 /** */
@@ -33,21 +35,15 @@ abstract class Attribute implements IAttribute {
     this.value = value;
   }
 
-  /**
-   * @return {string} representation of object
-  */
-  toAdjustmentString() {
-    return (
+  adjustmentText = () => 
       Color.outerPunc('(') + 
       Color.keyChoice(this.decKey()) +
       Color.innerPunc('|') +
       Color.keyChoice(this.incKey()) + 
       Color.outerPunc(')') +
-      Color.normalText(this.text.substring(1)) +
-      Color.subduedLine('------------------') +
-      Color.attributeValue(this.value)
-    );
-  }
+      Color.normalText(this.text.substring(1));
+  adjustmentSeparation = () => Color.subduedLine('- - - - - - - - - -');
+  adjustmentValue = () => Color.attributeValue(this.value);
 
   /**
    * @return {string} the char that decrements this attribute
