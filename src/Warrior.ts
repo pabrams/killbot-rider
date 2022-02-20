@@ -1,9 +1,9 @@
 /* eslint-disable require-jsdoc */
 /* eslint-disable indent */
 import {IAttributes, BaseAttribute} from './Attribute';
-import chalk from 'chalk';
 import inquirer from 'inquirer';
 import * as Defaults from './Defaults';
+import {Color} from './Colors';
 
 export interface IWarrior {
   nickname: string;
@@ -105,8 +105,8 @@ export class Warrior implements IWarrior {
    * @param {IAttributes} attributes
    */
   constructor(
-      nickname:string='none yet',
-      age:number = 16,
+      nickname:string = Defaults.Player_Name,
+      age:number = Defaults.Player_Age,
       attributePoints: number = Defaults.Starting_Attribute_Points,
   ) {
     this.nickname = nickname;
@@ -324,9 +324,10 @@ export class Warrior implements IWarrior {
    *
    */
   showAttributePoints() {
-    console.log(chalk.cyan(
-        `Attribute points to allocate: ${chalk.yellow(this.attributePoints)}`,
-    ));
+    console.log(
+      Color.altText("Attribute points to allocate: ") + 
+      Color.highlight(this.attributePoints)
+    );
     console.log("");
   }
 
@@ -334,16 +335,28 @@ export class Warrior implements IWarrior {
    *
    */
   showDerivedStats() {
-    console.log(chalk.green(`aim ---------- ${chalk.yellow(this.aimstat())}`));
     console.log(
-        chalk.green(`reaction ---------- ${chalk.yellow(this.reactionStat())}`),
+      Color.altText("aim") + 
+      Color.subduedLine("----------") + 
+      Color.statValue(this.aimstat())
     );
+
     console.log(
-        chalk.green(`tactics ---------- ${chalk.yellow(this.tacticsStat())}`));
+      Color.altText("reaction") + 
+      Color.subduedLine("----------") + 
+      Color.statValue(this.reactionStat())
+    );
+
     console.log(
-        chalk.green(
-            `piloting ---------- ${chalk.yellow(this.pilotingStat())}`,
-        ),
+      Color.altText("tactics") + 
+      Color.subduedLine("----------") + 
+      Color.statValue(this.tacticsStat())
+    );
+
+    console.log(
+      Color.altText("piloting") + 
+      Color.subduedLine("----------") + 
+      Color.statValue(this.pilotingStat())
     );
     console.log("");
   };

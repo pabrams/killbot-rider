@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "chalk": "^4.1.2",
+    "colors": "^1.4.0",
     "eslint-import-resolver-typescript": "^2.5.0",
     "inquirer-autosubmit-prompt": "^0.2.0"
   },

@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import chalk from 'chalk';
+import {Color} from './Colors';
 
 interface IAttribute{
   text: string;
@@ -38,15 +38,16 @@ abstract class Attribute implements IAttribute {
   */
   toAdjustmentString() {
     return (
-      chalk.cyan(
-        `(${chalk.yellow(this.decKey())}|${chalk.yellow(this.incKey())})` +
-        `${chalk.blue(this.text.substring(1))}` +
-        `${chalk.gray('----------')}` +
-        `${chalk.red(this.value)}`,
-      )
+      Color.outerPunc('(') + 
+      Color.keyChoice(this.decKey()) +
+      Color.innerPunc('|') +
+      Color.keyChoice(this.incKey()) + 
+      Color.outerPunc(')') +
+      Color.normalText(this.text.substring(1)) +
+      Color.subduedLine('------------------') +
+      Color.attributeValue(this.value)
     );
   }
-
 
   /**
    * @return {string} the char that decrements this attribute
