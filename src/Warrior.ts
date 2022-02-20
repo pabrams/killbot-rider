@@ -5,6 +5,11 @@ import inquirer from 'inquirer';
 import * as Defaults from './Defaults';
 import {Color} from './Colors';
 
+inquirer.registerPrompt(
+  'autosubmit',
+  require('inquirer-autosubmit-prompt'),
+);
+
 export interface IWarrior {
   nickname: string;
   age: number;
@@ -18,15 +23,13 @@ export interface IWarrior {
   pilotingStat: () => number;
 }
 
-
 /**
  * The warrior class
  */
 export class Warrior implements IWarrior {
   nickname: string;
   age: number;
-
-  attributePoints: number;
+  attributePoints: number = 0;
   attributes = {
     0: new BaseAttribute(
       'eyesight',
@@ -105,9 +108,9 @@ export class Warrior implements IWarrior {
    * @param {IAttributes} attributes
    */
   constructor(
-      nickname:string = Defaults.Player_Name,
-      age:number = Defaults.Player_Age,
-      attributePoints: number = Defaults.Starting_Attribute_Points,
+      nickname = Defaults.Player_Name,
+      age = Defaults.Player_Age,
+      attributePoints = Defaults.Starting_Attribute_Points,
   ) {
     this.nickname = nickname;
     this.age = age;
@@ -168,10 +171,6 @@ export class Warrior implements IWarrior {
       this.showAttributePoints();
       this.showDerivedStats();
       this.showAdjustmentMessages();
-      inquirer.registerPrompt(
-        'autosubmit',
-        require('inquirer-autosubmit-prompt'),
-      );
 
       try {
         const answer = await inquirer.prompt([
@@ -253,60 +252,60 @@ export class Warrior implements IWarrior {
 
           case this.dexterity().decKey():
             if (this.dexterity().value > 1) {
-              this.dexterity().value--;
-              this.attributePoints++;
+              this.dexterity().value -= 1;
+              this.attributePoints += 1;
             }
             break;
           case this.dexterity().incKey():
             if (this.attributePoints > 0) {
               if (this.dexterity().value < 12) {
-                this.dexterity().value++;
-                this.attributePoints--;
+                this.dexterity().value += 1;
+                this.attributePoints -= 1;
               }
             }
             break;
 
           case this.reflexes().decKey():
             if (this.reflexes().value > 1) {
-              this.reflexes().value--;
-              this.attributePoints++;
+              this.reflexes().value -= 1;
+              this.attributePoints += 1;
             }
             break;
           case this.reflexes().incKey():
             if (this.attributePoints > 0) {
               if (this.reflexes().value < 12) {
-                this.reflexes().value++;
-                this.attributePoints--;
+                this.reflexes().value += 1;
+                this.attributePoints -= 1;
               }
             }
             break;
 
           case this.intellect().decKey():
             if (this.intellect().value > 1) {
-              this.intellect().value--;
-              this.attributePoints++;
+              this.intellect().value -= 1;
+              this.attributePoints += 1;
             }
             break;
           case this.intellect().incKey():
             if (this.attributePoints > 0) {
               if (this.intellect().value < 12) {
-                this.intellect().value++;
-                this.attributePoints--;
+                this.intellect().value +1;
+                this.attributePoints -= 1;
               }
             }
             break;
 
           case this.fortitude().decKey():
             if (this.fortitude().value > 1) {
-              this.fortitude().value--;
-              this.attributePoints++;
+              this.fortitude().value -= 1;
+              this.attributePoints += 1;
             }
             break;
           case this.fortitude().incKey():
             if (this.attributePoints > 0) {
               if (this.fortitude().value < 12) {
-                this.fortitude().value++;
-                this.attributePoints--;
+                this.fortitude().value += 1;
+                this.attributePoints -= 1;
               }
             }
             break;

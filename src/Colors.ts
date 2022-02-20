@@ -1,5 +1,5 @@
 // import * as Color from 'colors';  // extends string!
-export let Color = require('colors');
+export let Color = require('colors/safe');
 /*
 text colors
     black
