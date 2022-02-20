@@ -25,7 +25,11 @@ export interface IWarrior {
 export class Warrior implements IWarrior {
   nickname: string;
   age: number;
-  attributePoints: number = 0;
+  attributePoints = 0;
+  combatExperience = 10;
+  pilotingExperience = 10;
+  barterExperience = 10;
+  repairExperience = 10;
   attributes = {
     0: new BaseAttribute(
       'eyesight',
@@ -91,21 +95,23 @@ export class Warrior implements IWarrior {
   attributeChoices = [];
   derivedStats = {
     0: {
-      name: "aim", 
-      value: () => 
+      name: "aim",
+      value: () => (
         5 * this.eyesight().value + 
         4 * this.dexterity().value +
         1 * this.intellect().value
+      ) * this.combatExperience / 10
     },
     1: {
-      name: "reaction", 
+      name: "reaction",
       value: () => 10 * this.reflexes().value
     },
     2: {
       name: "tactics", 
-      value: () => 
+      value: () => (
         9 * this.intellect().value +
         1 * this.eyesight().value
+      ) * this.combatExperience / 10
     },
     3: {
       name: "fatigueRate", 
@@ -114,11 +120,13 @@ export class Warrior implements IWarrior {
     4: {
       name: "piloting", 
       value: () =>
+      (
         2 * this.eyesight().value +
         2 * this.dexterity().value +
         2 * this.fortitude().value +
         2 * this.intellect().value +
         2 * this.reflexes().value
+      ) * this.pilotingExperience / 10
     },
     5: {
       name: "bravery", 
@@ -126,21 +134,24 @@ export class Warrior implements IWarrior {
     },
     6: {
       name: "leadership", 
-      value: () => 
+      value: () => (
         1 * this.intellect().value +
         1 * this.fortitude().value +
         8 * this.charisma().value
+      ) * this.combatExperience / 10
     },
     7: {
       name: "barter", 
       value: () => 
+      (
         4 * this.intellect().value +
         6 * this.charisma().value
+      ) * this.barterExperience / 10
     },
     8: {
       name: "repair", 
       value: () => 
-        10 * this.intellect().value
+        10 * this.intellect().value * this.repairExperience / 10
     },
     [Symbol.iterator]: function* () {
       yield this[0];
