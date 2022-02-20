@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "cli-table": "^0.3.11",
     "colors": "^1.4.0",
     "eslint-import-resolver-typescript": "^2.5.0",
     "inquirer-autosubmit-prompt": "^0.2.0"

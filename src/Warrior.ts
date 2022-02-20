@@ -1,9 +1,10 @@
 /* eslint-disable require-jsdoc */
 /* eslint-disable indent */
-import {IAttributes, BaseAttribute} from './Attribute';
 import inquirer from 'inquirer';
+let Table = require('cli-table');
+import { Color } from './Colors';
 import * as Defaults from './Defaults';
-import {Color} from './Colors';
+import { IAttributes, BaseAttribute } from './Attribute';
 
 inquirer.registerPrompt(
   'autosubmit',
@@ -210,13 +211,20 @@ export class Warrior implements IWarrior {
    *
    */
   showDerivedStats() {
+    let statDisplay = new Table({
+      chars: { 
+        'top': '═' , 'top-mid': '╤' , 'top-left': '╔' , 'top-right': '╗'
+        , 'bottom': '═' , 'bottom-mid': '╧' , 'bottom-left': '╚' , 'bottom-right': '╝'
+        , 'left': '║' , 'left-mid': '╟' , 'mid': '─' , 'mid-mid': '┼'
+        , 'right': '║' , 'right-mid': '╢' , 'middle': '│' 
+      }
+    });
     for (const stat of this.derivedStats) {
-      console.log(
-        Color.altText(stat.name) + 
-        Color.subduedLine("----------") + 
-        Color.statValue(stat.value())
+      statDisplay.push(
+        [Color.altText(stat.name), Color.statValue(stat.value())]
       );
     }
+    console.log(statDisplay.toString());
     console.log("");
   };
   /**
