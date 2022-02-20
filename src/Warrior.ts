@@ -30,32 +30,32 @@ export class Warrior implements IWarrior {
     0: new BaseAttribute(
       'eyesight',
       'eye',
-      1,
+      10,
     ),
     1: new BaseAttribute(
       'dexterity',
       'dex',
-      1,
+      6,
     ),
     2: new BaseAttribute(
       'reflexes',
       'rfx',
-      1
+      6
     ),
     3: new BaseAttribute(
       'intellect',
       'int',
-      1,
+      6,
     ),
     4: new BaseAttribute(
       'fortitude',
       'frt',
-      1,
+      6,
     ),
     5: new BaseAttribute(
       'charisma',
-      'hum',
-      1,
+      'cha',
+      6,
     ),
     [Symbol.iterator]: function* () {
       yield this[0];
@@ -93,49 +93,54 @@ export class Warrior implements IWarrior {
     0: {
       name: "aim", 
       value: () => 
-        50 * this.eyesight().value + 
-        40 * this.dexterity().value +
-        10 * this.intellect().value
+        5 * this.eyesight().value + 
+        4 * this.dexterity().value +
+        1 * this.intellect().value
     },
     1: {
       name: "reaction", 
-      value: () => 100 * this.reflexes().value
+      value: () => 10 * this.reflexes().value
     },
     2: {
       name: "tactics", 
       value: () => 
-        90 * this.intellect().value +
-        10 * this.eyesight().value
+        9 * this.intellect().value +
+        1 * this.eyesight().value
     },
     3: {
       name: "fatigueRate", 
-      value: () => 100 * this.fortitude().value
+      value: () => 10 * this.fortitude().value
     },
     4: {
       name: "piloting", 
       value: () =>
-        20 * this.eyesight().value +
-        30 * this.dexterity().value +
-        10 * this.fortitude().value +
-        10 * this.intellect().value +
-        30 * this.reflexes().value
+        2 * this.eyesight().value +
+        2 * this.dexterity().value +
+        2 * this.fortitude().value +
+        2 * this.intellect().value +
+        2 * this.reflexes().value
     },
     5: {
       name: "bravery", 
-      value: () => 100 * this.fortitude().value
+      value: () => 10 * this.fortitude().value
     },
     6: {
       name: "leadership", 
       value: () => 
-        10 * this.intellect().value +
-        10 * this.fortitude().value +
-        80 * this.charisma().value
+        1 * this.intellect().value +
+        1 * this.fortitude().value +
+        8 * this.charisma().value
     },
     7: {
       name: "barter", 
       value: () => 
-        40 * this.intellect().value +
-        60 * this.charisma().value
+        4 * this.intellect().value +
+        6 * this.charisma().value
+    },
+    8: {
+      name: "repair", 
+      value: () => 
+        10 * this.intellect().value
     },
     [Symbol.iterator]: function* () {
       yield this[0];
@@ -146,6 +151,7 @@ export class Warrior implements IWarrior {
       yield this[5];
       yield this[6];
       yield this[7];
+      yield this[8];
     },
     findByName: function(text: string) {
       for (const derivedStat of this) {
@@ -156,11 +162,6 @@ export class Warrior implements IWarrior {
       return null;
     },
   };
-  aimStat = () => this.derivedStats.findByName('aim');
-  reactionStat = () => this.derivedStats.findByName('reaction');
-  tacticsStat = () => this.derivedStats.findByName('tactics');
-  fatigueRateStat = () => this.derivedStats.findByName('fatigueRate');
-  pilotingStat = () => this.derivedStats.findByName('piloting');
   /**
    * @param {string} nickname
    * @param {number} age
