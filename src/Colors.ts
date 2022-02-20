@@ -71,7 +71,7 @@ Color.setTheme({
     outerPunc: 'cyan',
     innerPunc: 'red',
     attributeValue: ['brightRed', 'bold'],
-    statValue: ['red'],
+    statValue: 'yellow',
     subduedLine: 'gray',
     line: 'white',
     normalText: 'green',
