@@ -5,7 +5,6 @@ interface IAttribute{
   text: string;
   stext: string;
   value: number;
-  toString: () => string;
   toAdjustmentString: () => string;
   decKey: () => string;
   incKey: () => string;
@@ -32,17 +31,6 @@ abstract class Attribute implements IAttribute {
     this.text = text;
     this.stext = stext;
     this.value = value;
-  }
-
-  /**
-   * @return {string} representation of object
-  */
-  toString() {
-    return (
-      `${chalk.greenBright(this.text)}` +
-      `${chalk.blueBright('----------')}` +
-      `${chalk.greenBright(this.value)}`
-    );
   }
 
   /**
