@@ -3,6 +3,7 @@
 import {IAttributes, BaseAttribute} from './Attribute';
 import chalk from 'chalk';
 import inquirer from 'inquirer';
+import * as Defaults from './Defaults';
 
 export interface IWarrior {
   nickname: string;
@@ -30,27 +31,27 @@ export class Warrior implements IWarrior {
     0: new BaseAttribute(
       'eyesight',
       'eye',
-      3,
+      1,
     ),
     1: new BaseAttribute(
       'dexterity',
       'dex',
-      3,
+      1,
     ),
     2: new BaseAttribute(
       'reflexes',
       'rfx',
-      3
+      1
     ),
     3: new BaseAttribute(
       'intellect',
       'int',
-      3,
+      1,
     ),
     4: new BaseAttribute(
       'fortitude',
       'frt',
-      3,
+      1,
     ),
     [Symbol.iterator]: function* () {
       yield this[0];
@@ -106,7 +107,7 @@ export class Warrior implements IWarrior {
   constructor(
       nickname:string='none yet',
       age:number = 16,
-      attributePoints: number = 5,
+      attributePoints: number = Defaults.Starting_Attribute_Points,
   ) {
     this.nickname = nickname;
     this.age = age;
@@ -183,42 +184,42 @@ export class Warrior implements IWarrior {
               {
                 key: this.eyesight().decKey(),
                 value: this.eyesight().decKey(),
-                name: this.eyesight().toString(),
+                name: this.eyesight().text,
               },
               {
                 key: this.eyesight().incKey(),
                 value: this.eyesight().incKey(),
-                name: this.eyesight().toString(),
+                name: this.eyesight().text,
               },
               {
                 key: this.dexterity().decKey(),
                 value: this.dexterity().decKey(),
-                name: this.dexterity().toString(),
+                name: this.dexterity().text,
               },
               {
                 key: this.dexterity().incKey(),
                 value: this.dexterity().incKey(),
-                name: this.dexterity().toString(),
+                name: this.dexterity().text,
               },
               {
                 key: this.reflexes().decKey(),
                 value: this.reflexes().decKey(),
-                name: this.reflexes().toString(),
+                name: this.reflexes().text,
               },
               {
                 key: this.reflexes().incKey(),
                 value: this.reflexes().incKey(),
-                name: this.reflexes().toString(),
+                name: this.reflexes().text,
               },
               {
                 key: this.intellect().decKey(),
                 value: this.intellect().decKey(),
-                name: this.intellect().toString(),
+                name: this.intellect().text,
               },
               {
                 key: this.intellect().incKey(),
                 value: this.intellect().incKey(),
-                name: this.intellect().toString(),
+                name: this.intellect().text,
               },
               {
                 key: this.fortitude().decKey(),
@@ -228,7 +229,7 @@ export class Warrior implements IWarrior {
               {
                 key: this.fortitude().incKey(),
                 value: this.fortitude().incKey(),
-                name: this.fortitude().toString(),
+                name: this.fortitude().text,
               },
             ],
           },
@@ -237,14 +238,14 @@ export class Warrior implements IWarrior {
         switch (lastAnswer) {
           case this.eyesight().decKey():
             if (this.eyesight().value > 1) {
-              this.attributes[0].value -= 1;
+              this.eyesight().value -= 1;
               this.attributePoints += 1;
             }
             break;
           case this.eyesight().incKey():
             if (this.attributePoints > 0) {
               if (this.eyesight().value < 12) {
-                this.attributes[0].value += 1;
+                this.eyesight().value += 1;
                 this.attributePoints -= 1;
               }
             }
