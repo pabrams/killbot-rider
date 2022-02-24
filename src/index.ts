@@ -1,15 +1,27 @@
-import {Warrior} from './Warrior';
+import { Warrior } from './Warrior';
 import * as Defaults from './Defaults';
 
-let player;
-try {
-  player = new Warrior(
-    Defaults.Player_Name,
-    Defaults.Player_Age,
-    Defaults.Starting_Attribute_Points
-  );
-  console.clear();
-  player.chooseAttributes().then(() => console.log('done'));
-} catch (e) {
-  console.error(e, e.message);
+function main() {
+  let player;
+  try {
+    player = new Warrior(
+      Defaults.Player_Name,
+      Defaults.Player_Age,
+      Defaults.Starting_Attribute_Points
+    );
+    console.log("uhoh");
+    go(player).then(
+      () => console.log('all done')
+    );
+  } catch (e) {
+    console.error(e, e.message);
+  }
 }
+
+async function go(player) {
+  await player.chooseAttributes();
+
+  return;
+}
+
+main();
