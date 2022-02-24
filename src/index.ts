@@ -8,6 +8,7 @@ try {
     Defaults.Player_Age,
     Defaults.Starting_Attribute_Points
   );
+  console.clear();
   player.chooseAttributes().then(() => console.log('done'));
 } catch (e) {
   console.error(e, e.message);

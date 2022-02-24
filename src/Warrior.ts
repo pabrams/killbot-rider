@@ -215,6 +215,7 @@ export class Warrior implements IWarrior {
             choices: this.attributeChoices
           },
         ]);
+      console.clear(); 
         lastAnswer = answer.choice;
         for (const a of this.attributes){
           if (lastAnswer == a.decKey()) {
