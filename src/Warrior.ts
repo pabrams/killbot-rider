@@ -200,7 +200,7 @@ export class Warrior implements IWarrior {
    */
   async chooseAttributes() {
     let lastAnswer = '0';
-    while (lastAnswer != 'd') {
+    while (lastAnswer != 'q') {
       console.log("");
       this.showDerivedStats();
       this.showAdjustmentMessages();
@@ -208,7 +208,7 @@ export class Warrior implements IWarrior {
         const answer = await inquirer.prompt([
           {
             type: 'autosubmit',
-            message: 'Adjust your attribute points.  Use \'d\' when donee.',
+            message: 'Adjust your attribute points.  Use \'q\' when donee.',
             name: 'choice',
             autoSubmit: (input) => input.length === 1,
             choices: this.attributeChoices

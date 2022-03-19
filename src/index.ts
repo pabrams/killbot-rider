@@ -9,7 +9,6 @@ function main() {
       Defaults.Player_Age,
       Defaults.Starting_Attribute_Points
     );
-    console.log("uhoh");
     go(player).then(
       () => console.log('all done')
     );
